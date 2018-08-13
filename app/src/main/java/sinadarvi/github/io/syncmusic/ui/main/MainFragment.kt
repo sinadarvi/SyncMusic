@@ -34,15 +34,15 @@ class MainFragment : Fragment() {
         bar.replaceMenu(R.menu.bottomappbar_menu_primary)
         fab.setOnClickListener {
             if (state) {
+
                 val bottomNavDrawerFragment = BottomNavigationDrawerFragment()
                 bottomNavDrawerFragment.show(myContext.supportFragmentManager, bottomNavDrawerFragment.tag)
-                state = false
             } else {
+                state = true
                 bar.setNavigationIcon(R.drawable.ic_menu_white_24dp)
                 bar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
                 bar.replaceMenu(R.menu.bottomappbar_menu_primary)
                 fab.setImageResource(R.drawable.ic_audiotrack_white_24dp)
-                state = true
             }
         }
         return view
@@ -61,6 +61,7 @@ class MainFragment : Fragment() {
     }
 
     fun onBottomSheetDialogItemSelect(itemId: Int) {
+        state = false
         when (itemId) {
             R.id.server -> {
                 bar.navigationIcon = null
