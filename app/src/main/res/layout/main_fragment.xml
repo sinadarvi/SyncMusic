@@ -8,30 +8,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.MainFragment">
 
-    <TextView
-        android:id="@+id/message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="MainFragment"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-
-    <com.google.android.material.button.MaterialButton
-        android:layout_width = "wrap_content"
-        android:layout_height = "wrap_content"
-        android:layout_marginStart = "8dp"
-        android:layout_marginTop = "8dp"
-        android:layout_marginEnd = "8dp"
-        android:layout_marginBottom = "8dp"
-        app:layout_constraintBottom_toTopOf = "@+id/message"
-        app:layout_constraintEnd_toEndOf = "parent"
-        app:layout_constraintStart_toStartOf = "parent"
-        android:text="Push Me"
-        app:layout_constraintTop_toTopOf = "@+id/coordinatorLayout" />
-
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id = "@+id/coordinatorLayout"
         android:layout_width = "match_parent"
@@ -43,13 +19,14 @@
             android:layout_height = "wrap_content"
             android:layout_gravity = "bottom"
             app:backgroundTint = "@color/colorPrimary"
-            app:fabAlignmentMode = "center"/>
+            app:fabAlignmentMode = "center"
+            app:navigationIcon="@drawable/ic_menu_white_24dp"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id = "@+id/fab"
             android:layout_width = "wrap_content"
             android:layout_height = "wrap_content"
-            android:src = "@drawable/baseline_add_white_24"
+            android:src = "@drawable/ic_audiotrack_white_24dp"
             app:layout_anchor = "@id/bottom_app_bar" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

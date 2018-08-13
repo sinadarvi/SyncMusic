@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android = "http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/server"
+            android:icon="@drawable/ic_speaker_phone_black_24dp"
+            android:title="@string/make_me_broadcaster" />
+        <item
+            android:id="@+id/client"
+            android:icon="@drawable/ic_speaker_black_24dp"
+            android:title="@string/make_me_speaker" />
+    </group>
+</menu>
