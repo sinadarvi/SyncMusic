@@ -3,15 +3,20 @@ package sinadarvi.github.io.syncmusic.ui.main
 import android.content.Context
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.main_fragment.*
 import sinadarvi.github.io.syncmusic.R
 import sinadarvi.github.io.syncmusic.R.menu.bottomappbar_menu_primary
@@ -87,6 +92,7 @@ class MainFragment : Fragment() {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         myContext = context as FragmentActivity
+        context
     }
 
     fun onBottomSheetDialogItemSelect(itemId: Int) {
@@ -99,6 +105,37 @@ class MainFragment : Fragment() {
             R.id.client -> {
             }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        Log.e("AAAA","clicked")
+        when (item?.itemId){
+            R.id.play -> {
+
+                Log.e("AAAA","clicked on ply")
+                val snackbar = Snackbar.make(
+                        coordinatorLayout,
+                        "FAB Clicked",
+                        Snackbar.LENGTH_LONG
+                ).setAction("UNDO") {  }
+                // Changing message text color
+                snackbar.setActionTextColor(ContextCompat.getColor(context!!, R.color.snackbar))
+
+                val snackbarView = snackbar.view
+                val params = snackbarView.layoutParams as CoordinatorLayout.LayoutParams
+
+                params.setMargins(
+                        params.leftMargin + 0,
+                        params.topMargin,
+                        params.rightMargin + 0,
+                        params.bottomMargin + 0
+                )
+
+                snackbarView.layoutParams = params
+                snackbar.show()
+            }
+        }
+        return true
     }
 
 }
