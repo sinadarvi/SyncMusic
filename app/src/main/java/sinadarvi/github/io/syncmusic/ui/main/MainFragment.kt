@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
@@ -29,57 +30,13 @@ class MainFragment : Fragment() {
         fun newInstance() = MainFragment()
     }
 
-    private var currentFabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
-
     private lateinit var viewModel: MainViewModel
-    private lateinit var myContext: FragmentActivity
-    private lateinit var bar: BottomAppBar
-    private lateinit var fab: FloatingActionButton
-    private var state = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.main_fragment, container, false)
-        fab = view.findViewById(R.id.fab)
-        bar = view.findViewById(R.id.bottom_app_bar)
-        bar.replaceMenu(R.menu.bottomappbar_menu_primary)
-        fab.setOnClickListener {
-            if (state) {
-                val bottomNavDrawerFragment = BottomNavigationDrawerFragment()
-                bottomNavDrawerFragment.show(myContext.supportFragmentManager, bottomNavDrawerFragment.tag)
-            } else {
-                state = true
-                fab.hide(addVisibilityChanged)
-                bar.setNavigationIcon(R.drawable.ic_menu_white_24dp)
-            }
-        }
 
         return view
-    }
-
-    val addVisibilityChanged: FloatingActionButton.OnVisibilityChangedListener = object : FloatingActionButton.OnVisibilityChangedListener() {
-        override fun onShown(fab: FloatingActionButton?) {
-            super.onShown(fab)
-        }
-
-        override fun onHidden(fab: FloatingActionButton?) {
-            super.onHidden(fab)
-            bar.toggleFabAlignment()
-            bottom_app_bar.replaceMenu(
-                    if (currentFabAlignmentMode == BottomAppBar.FAB_ALIGNMENT_MODE_CENTER) bottomappbar_menu_secondary
-                    else bottomappbar_menu_primary
-            )
-            fab?.setImageResource(
-                    if (currentFabAlignmentMode == BottomAppBar.FAB_ALIGNMENT_MODE_CENTER) R.drawable.ic_clear_white_24dp
-                    else R.drawable.ic_audiotrack_white_24dp
-            )
-            fab?.show()
-        }
-    }
-
-    private fun BottomAppBar.toggleFabAlignment() {
-        currentFabAlignmentMode = fabAlignmentMode
-        fabAlignmentMode = currentFabAlignmentMode.xor(1)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -91,51 +48,6 @@ class MainFragment : Fragment() {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        myContext = context as FragmentActivity
-        context
-    }
-
-    fun onBottomSheetDialogItemSelect(itemId: Int) {
-        state = false
-        bar.navigationIcon = null
-        fab.hide(addVisibilityChanged)
-        when (itemId) {
-            R.id.server -> {
-            }
-            R.id.client -> {
-            }
-        }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        Log.e("AAAA","clicked")
-        when (item?.itemId){
-            R.id.play -> {
-
-                Log.e("AAAA","clicked on ply")
-                val snackbar = Snackbar.make(
-                        coordinatorLayout,
-                        "FAB Clicked",
-                        Snackbar.LENGTH_LONG
-                ).setAction("UNDO") {  }
-                // Changing message text color
-                snackbar.setActionTextColor(ContextCompat.getColor(context!!, R.color.snackbar))
-
-                val snackbarView = snackbar.view
-                val params = snackbarView.layoutParams as CoordinatorLayout.LayoutParams
-
-                params.setMargins(
-                        params.leftMargin + 0,
-                        params.topMargin,
-                        params.rightMargin + 0,
-                        params.bottomMargin + 0
-                )
-
-                snackbarView.layoutParams = params
-                snackbar.show()
-            }
-        }
-        return true
     }
 
 }
