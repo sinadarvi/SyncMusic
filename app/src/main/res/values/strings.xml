@@ -5,4 +5,8 @@
     <string name = "play">play</string>
     <string name = "drawer">drawer</string>
     <string name = "setting">setting</string>
+    <string name = "recent_actions">Recent Actions</string>
+    <string name = "visual_equaliser">Visual Equaliser</string>
+    <string name = "playlist">PlayList</string>
+    <string name = "sync_music">Sync Music</string>
 </resources>

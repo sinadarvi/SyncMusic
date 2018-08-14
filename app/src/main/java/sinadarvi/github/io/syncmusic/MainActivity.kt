@@ -5,19 +5,13 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.transaction
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.main_activity.*
-import sinadarvi.github.io.syncmusic.ui.main.BottomNavigationDrawerFragment
-import sinadarvi.github.io.syncmusic.ui.main.MainFragment
+import sinadarvi.github.io.syncmusic.ui.equaliser.EqualiserFragment
 
-class MainActivity : AppCompatActivity(), BottomNavigationDrawerFragment.OnMenuItemClickListener {
-
-    private lateinit var mainFragment: MainFragment
+class MainActivity : AppCompatActivity(), BottomMenuDrawerFragment.OnMenuItemClickListener {
 
     private var currentFabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
     private var state = true
@@ -38,10 +32,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationDrawerFragment.OnMenuI
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         setSupportActionBar(bottom_app_bar)
-//        bottom_app_bar.replaceMenu(R.menu.bottomappbar_menu_primary)
         fab.setOnClickListener {
             if (state) {
-                val bottomNavDrawerFragment = BottomNavigationDrawerFragment()
+                val bottomNavDrawerFragment = BottomMenuDrawerFragment()
                 bottomNavDrawerFragment.show(supportFragmentManager, bottomNavDrawerFragment.tag)
             } else {
                 state = true
@@ -52,16 +45,14 @@ class MainActivity : AppCompatActivity(), BottomNavigationDrawerFragment.OnMenuI
 
 
         if (savedInstanceState == null) {
-            mainFragment = MainFragment.newInstance()
-
             supportFragmentManager.transaction {
-                replace(R.id.container,mainFragment,"MainFragment")
+                replace(R.id.container, EqualiserFragment.newInstance(), "EqualiserFragment")
             }
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.bottomappbar_menu_primary,menu)
+        menuInflater.inflate(R.menu.bottomappbar_menu_primary, menu)
         return true
     }
 
@@ -91,32 +82,17 @@ class MainActivity : AppCompatActivity(), BottomNavigationDrawerFragment.OnMenuI
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        Log.e("AAAA","clicked")
-        when (item?.itemId){
+        Log.e("AAAA", "clicked")
+        when (item?.itemId) {
             R.id.play -> {
-
-                Log.e("AAAA","clicked on ply")
-                val snackbar = Snackbar.make(
-                        snackbar_coordinatorLayout,
-                        "FAB Clicked",
-                        Snackbar.LENGTH_LONG
-                ).setAction("UNDO") {  }
-                // Changing message text color
-                snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.snackbar))
-
-                val snackbarView = snackbar.view
-                val params = snackbarView.layoutParams as CoordinatorLayout.LayoutParams
-
-                params.setMargins(
-                        params.leftMargin + 0,
-                        params.topMargin,
-                        params.rightMargin + 0,
-                        params.bottomMargin + 350
-                )
-
-                snackbarView.layoutParams = params
-                snackbar.show()
+                Log.e("AAAA", "clicked on ply")
             }
+            android.R.id.home -> {
+                val bottomNavDrawerFragment = BottomNavigationDrawerFragment()
+                bottomNavDrawerFragment.show(supportFragmentManager, bottomNavDrawerFragment.tag)
+            }
+            else -> Log.e("AAAA", "itemID: ${item?.title}")
+
         }
         return true
     }
