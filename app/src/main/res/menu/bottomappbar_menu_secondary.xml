@@ -3,8 +3,8 @@
     xmlns:app = "http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/app_bar_mail"
-        android:icon="@drawable/ic_play_circle_outline_white_24dp"
+        android:id="@+id/play"
+        android:icon="@drawable/ic_play_arrow_white_24dp"
         android:title="@string/play"
         app:showAsAction="ifRoom"/>
 

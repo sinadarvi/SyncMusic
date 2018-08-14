@@ -2,6 +2,7 @@ package sinadarvi.github.io.syncmusic
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import sinadarvi.github.io.syncmusic.ui.main.BottomNavigationDrawerFragment
 import sinadarvi.github.io.syncmusic.ui.main.MainFragment
 
@@ -23,6 +24,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationDrawerFragment.OnMenuI
                     .replace(R.id.container, mainFragment)
                     .commitNow()
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId){
+            R.id.play ->
+        }
+        return true
     }
 
 }
