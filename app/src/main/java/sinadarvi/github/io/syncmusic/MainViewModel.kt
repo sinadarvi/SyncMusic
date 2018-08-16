@@ -11,12 +11,13 @@ import com.github.angads25.filepicker.model.DialogProperties
 import com.github.angads25.filepicker.view.FilePickerDialog
 import java.io.File
 
-class MainViewModel(lifecycleOwner: LifecycleOwner) : ViewModel(), LifecycleObserver {
+class MainViewModel : ViewModel(), LifecycleObserver {
 
     private var mediaPlayer: MediaPlayer? = null
     private val properties = DialogProperties()
 
-    init {
+
+    fun addObserver(lifecycleOwner: LifecycleOwner){
         lifecycleOwner.lifecycle.addObserver(this)
     }
 
@@ -42,7 +43,7 @@ class MainViewModel(lifecycleOwner: LifecycleOwner) : ViewModel(), LifecycleObse
             if (it.isPlaying) {
                 Log.e("SyncMusic", "media player is playing, stop before running new one")
                 it.stop()
-                it.release()
+//                it.release()
             }
         }
         mediaPlayer = MediaPlayer.create(context, Uri.parse(path))
@@ -70,7 +71,7 @@ class MainViewModel(lifecycleOwner: LifecycleOwner) : ViewModel(), LifecycleObse
             if (it.isPlaying) {
                 it.stop()
             }
-            it.release()
+//            it.release()
         }
     }
 }

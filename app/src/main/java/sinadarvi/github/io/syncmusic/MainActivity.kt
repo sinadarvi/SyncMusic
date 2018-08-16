@@ -50,7 +50,8 @@ class MainActivity : AppCompatActivity(), BottomMenuDrawerFragment.OnMenuItemCli
         setContentView(R.layout.main_activity)
         setSupportActionBar(bottom_app_bar)
 
-        viewModel = ViewModelProviders.of(this)[MainViewModel(this)::class.java]
+        viewModel = ViewModelProviders.of(this)[MainViewModel::class.java]
+        viewModel.addObserver(this)
 
         fab.setOnClickListener {
             if (state) {
