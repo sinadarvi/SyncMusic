@@ -1,22 +1,34 @@
 package sinadarvi.github.io.syncmusic
 
+import android.media.MediaPlayer
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.fragment.app.transaction
+import androidx.lifecycle.ViewModelProviders
+import com.github.angads25.filepicker.controller.DialogSelectionListener
+import com.github.angads25.filepicker.model.DialogConfigs
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.main_activity.*
 import sinadarvi.github.io.syncmusic.ui.equaliser.EqualiserFragment
+import com.github.angads25.filepicker.model.DialogProperties
+import java.io.File
+import com.github.angads25.filepicker.view.FilePickerDialog
 
-class MainActivity : AppCompatActivity(), BottomMenuDrawerFragment.OnMenuItemClickListener {
+
+class MainActivity : AppCompatActivity(), BottomMenuDrawerFragment.OnMenuItemClickListener
+        ,BottomNavigationDrawerFragment.OnNavItemClickListener {
 
     private var currentFabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
     private var state = true
+    private lateinit var viewModel: MainViewModel
 
-    override fun onItemSelected(itemId: Int) {
+    override fun onMenuItemSelected(itemId: Int) {
         state = false
         bottom_app_bar.navigationIcon = null
         fab.hide(addVisibilityChanged)
@@ -28,10 +40,18 @@ class MainActivity : AppCompatActivity(), BottomMenuDrawerFragment.OnMenuItemCli
         }
     }
 
+    override fun onNavItemSelected(itemId: Int) {
+        Toast.makeText(this,"This item still unavailable right now" +
+                ", will be enable in next update",Toast.LENGTH_LONG).show()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         setSupportActionBar(bottom_app_bar)
+
+        viewModel = ViewModelProviders.of(this)[MainViewModel(this)::class.java]
+
         fab.setOnClickListener {
             if (state) {
                 val bottomNavDrawerFragment = BottomMenuDrawerFragment()
@@ -42,7 +62,6 @@ class MainActivity : AppCompatActivity(), BottomMenuDrawerFragment.OnMenuItemCli
                 bottom_app_bar.setNavigationIcon(R.drawable.ic_menu_white_24dp)
             }
         }
-
 
         if (savedInstanceState == null) {
             supportFragmentManager.transaction {
@@ -56,7 +75,8 @@ class MainActivity : AppCompatActivity(), BottomMenuDrawerFragment.OnMenuItemCli
         return true
     }
 
-    val addVisibilityChanged: FloatingActionButton.OnVisibilityChangedListener = object : FloatingActionButton.OnVisibilityChangedListener() {
+    val addVisibilityChanged: FloatingActionButton.OnVisibilityChangedListener
+            = object : FloatingActionButton.OnVisibilityChangedListener() {
         override fun onShown(fab: FloatingActionButton?) {
             super.onShown(fab)
         }
@@ -65,12 +85,16 @@ class MainActivity : AppCompatActivity(), BottomMenuDrawerFragment.OnMenuItemCli
             super.onHidden(fab)
             bottom_app_bar.toggleFabAlignment()
             bottom_app_bar.replaceMenu(
-                    if (currentFabAlignmentMode == BottomAppBar.FAB_ALIGNMENT_MODE_CENTER) R.menu.bottomappbar_menu_secondary
-                    else R.menu.bottomappbar_menu_primary
+                    if (currentFabAlignmentMode == BottomAppBar.FAB_ALIGNMENT_MODE_CENTER)
+                        R.menu.bottomappbar_menu_secondary
+                    else
+                        R.menu.bottomappbar_menu_primary
             )
             fab?.setImageResource(
-                    if (currentFabAlignmentMode == BottomAppBar.FAB_ALIGNMENT_MODE_CENTER) R.drawable.ic_clear_white_24dp
-                    else R.drawable.ic_audiotrack_white_24dp
+                    if (currentFabAlignmentMode == BottomAppBar.FAB_ALIGNMENT_MODE_CENTER)
+                        R.drawable.ic_clear_white_24dp
+                    else
+                        R.drawable.ic_audiotrack_white_24dp
             )
             fab?.show()
         }
@@ -82,14 +106,19 @@ class MainActivity : AppCompatActivity(), BottomMenuDrawerFragment.OnMenuItemCli
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        Log.e("AAAA", "clicked")
         when (item?.itemId) {
             R.id.play -> {
-                Log.e("AAAA", "clicked on ply")
+                viewModel.giveMeFilePicker(this, DialogSelectionListener {
+                    Toast.makeText(this, "address: ${it[0]}", Toast.LENGTH_SHORT).show()
+                    viewModel.startMusic(this,it[0],false)
+                })
             }
             android.R.id.home -> {
                 val bottomNavDrawerFragment = BottomNavigationDrawerFragment()
                 bottomNavDrawerFragment.show(supportFragmentManager, bottomNavDrawerFragment.tag)
+            }
+            R.id.setting -> {
+                viewModel.togglePlayingState()
             }
             else -> Log.e("AAAA", "itemID: ${item?.title}")
 

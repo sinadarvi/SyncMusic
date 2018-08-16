@@ -7,13 +7,18 @@
             android:icon = "@drawable/ic_graphic_eq_gray_24dp"
             android:title = "@string/visual_equaliser" />
         <item
-            android:id = "@+id/play_list"
+            android:id = "@+id/music_list"
             android:icon = "@drawable/ic_playlist_play_gray_24dp"
-            android:title = "@string/playlist" />
+            android:title = "Music List" />
 
         <item
             android:id = "@+id/recent_actions"
             android:icon = "@drawable/ic_history_gray_24dp"
             android:title = "@string/recent_actions" />
+
+        <item
+            android:id = "@+id/add_new_list"
+            android:icon = "@drawable/ic_add_gray_24dp"
+            android:title = "@string/add_new_list" />
     </group>
 </menu>

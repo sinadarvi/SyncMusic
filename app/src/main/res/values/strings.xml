@@ -9,4 +9,5 @@
     <string name = "visual_equaliser">Visual Equaliser</string>
     <string name = "playlist">PlayList</string>
     <string name = "sync_music">Sync Music</string>
+    <string name = "add_new_list">Add New List</string>
 </resources>

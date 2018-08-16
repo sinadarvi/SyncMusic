@@ -28,16 +28,14 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.0-rc01'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-rc01'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0-alpha1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0-rc01'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
-
-    implementation 'com.github.angads25:filepicker:1.1.1'
     implementation 'com.google.android.gms:play-services-nearby:15.0.1'
-
     implementation 'com.google.android.material:material:1.0.0-rc01'
-
     implementation 'androidx.core:core-ktx:1.0.0-rc01'
     implementation 'androidx.fragment:fragment-ktx:1.0.0-rc01'
+    implementation 'com.github.angads25:filepicker:1.1.1'
+    implementation "org.jetbrains.anko:anko:$anko_version"
 }

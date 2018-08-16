@@ -6,12 +6,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.navigation.NavigationView
-import kotlinx.android.synthetic.main.bottom_menu_fragment.*
+import kotlinx.android.synthetic.main.bottom_menu_fragment.view.*
 
 class BottomMenuDrawerFragment : BottomSheetDialogFragment() {
 
@@ -19,18 +17,21 @@ class BottomMenuDrawerFragment : BottomSheetDialogFragment() {
     private lateinit var callback: OnMenuItemClickListener
 
     interface OnMenuItemClickListener {
-        fun onItemSelected(itemId: Int)
+        fun onMenuItemSelected(itemId: Int)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.bottom_menu_fragment, container, false)
-        view.findViewById<NavigationView>(R.id.menu_view).setNavigationItemSelectedListener {
-            callback.onItemSelected(it.itemId)
+        return inflater.inflate(R.layout.bottom_menu_fragment, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.menu_view.setNavigationItemSelectedListener {
+            callback.onMenuItemSelected(it.itemId)
             dismiss()
             true
         }
-        view.findViewById<ImageView>(R.id.close_menu).setOnClickListener { dismiss() }
-        return view
+        view.close_menu.setOnClickListener { dismiss() }
     }
 
     override fun onAttach(context: Context?) {
