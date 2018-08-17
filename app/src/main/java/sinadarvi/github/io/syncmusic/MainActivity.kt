@@ -19,6 +19,7 @@ import sinadarvi.github.io.syncmusic.ui.equaliser.EqualiserFragment
 import com.github.angads25.filepicker.model.DialogProperties
 import java.io.File
 import com.github.angads25.filepicker.view.FilePickerDialog
+import sinadarvi.github.io.syncmusic.hotspotmanager.WifiApManager
 
 
 class MainActivity : AppCompatActivity(), BottomMenuDrawerFragment.OnMenuItemClickListener

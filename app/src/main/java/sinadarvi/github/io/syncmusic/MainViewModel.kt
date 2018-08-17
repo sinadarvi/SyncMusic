@@ -67,6 +67,11 @@ class MainViewModel : ViewModel(), LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onStoped() {
+
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    fun onDestroy(){
         mediaPlayer?.let {
             if (it.isPlaying) {
                 it.stop()
