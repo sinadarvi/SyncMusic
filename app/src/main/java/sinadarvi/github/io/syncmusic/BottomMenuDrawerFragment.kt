@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kotlinx.android.synthetic.main.bottom_menu_fragment.*
 import kotlinx.android.synthetic.main.bottom_menu_fragment.view.*
 
 class BottomMenuDrawerFragment : BottomSheetDialogFragment() {
@@ -24,14 +25,14 @@ class BottomMenuDrawerFragment : BottomSheetDialogFragment() {
         return inflater.inflate(R.layout.bottom_menu_fragment, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        view.menu_view.setNavigationItemSelectedListener {
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        menu_view.setNavigationItemSelectedListener {
             callback.onMenuItemSelected(it.itemId)
             dismiss()
             true
         }
-        view.close_menu.setOnClickListener { dismiss() }
+        close_menu.setOnClickListener { dismiss() }
     }
 
     override fun onAttach(context: Context?) {

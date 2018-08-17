@@ -10,6 +10,7 @@ import android.widget.ImageView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.bottom_nav_fragment.*
 import kotlinx.android.synthetic.main.bottom_nav_fragment.view.*
 
 class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
@@ -24,10 +25,10 @@ class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
         return inflater.inflate(R.layout.bottom_nav_fragment, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        view.close_nav.setOnClickListener { dismiss() }
-        view.nav_view.setNavigationItemSelectedListener {
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        close_nav.setOnClickListener { dismiss() }
+        nav_view.setNavigationItemSelectedListener {
             navItemListener.onNavItemSelected(it.itemId)
             dismiss()
             true
