@@ -1,4 +1,4 @@
-package io.github.sinadarvi.syncmusic.nsdhelper;
+package io.github.sinadarvi.syncmusic.nsd;
 
 /**
  * Typical NSD types.

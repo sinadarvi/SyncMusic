@@ -1,4 +1,4 @@
-package io.github.sinadarvi.syncmusic.nsdhelper;
+package io.github.sinadarvi.syncmusic.nsd;
 
 import android.net.nsd.NsdManager;
 import android.net.nsd.NsdServiceInfo;

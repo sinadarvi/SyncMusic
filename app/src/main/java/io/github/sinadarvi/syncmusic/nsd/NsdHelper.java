@@ -1,4 +1,4 @@
-package io.github.sinadarvi.syncmusic.nsdhelper;
+package io.github.sinadarvi.syncmusic.nsd;
 
 import android.content.Context;
 import android.net.nsd.NsdManager;
@@ -129,7 +129,7 @@ public class NsdHelper implements DiscoveryTimer.OnTimeoutListener {
 
     /**
      * If no new service has been discovered for a timeout interval, discovering will be stopped
-     * and {@link io.github.sinadarvi.syncmusic.nsdhelper.NsdListener#onNsdDiscoveryFinished()} will be called.
+     * and {@link io.github.sinadarvi.syncmusic.nsd.NsdListener#onNsdDiscoveryFinished()} will be called.
      * Default timeout is set to 15 seconds.
      * Set 0 to infinite.
      */
@@ -209,7 +209,7 @@ public class NsdHelper implements DiscoveryTimer.OnTimeoutListener {
     /**
      * Start discovering services.
      *
-     * @param serviceType Service type, eg. "_http._tcp.". Typical names can be obtain from {@link io.github.sinadarvi.syncmusic.nsdhelper.NsdType}.
+     * @param serviceType Service type, eg. "_http._tcp.". Typical names can be obtain from {@link io.github.sinadarvi.syncmusic.nsd.NsdType}.
      */
     public void startDiscovery(String serviceType) {
         startDiscovery(serviceType, null);
@@ -218,7 +218,7 @@ public class NsdHelper implements DiscoveryTimer.OnTimeoutListener {
     /**
      * Start discovering services.
      *
-     * @param serviceType Service type, eg. "_http._tcp.". Typical names can be obtain from {@link io.github.sinadarvi.syncmusic.nsdhelper.NsdType}
+     * @param serviceType Service type, eg. "_http._tcp.". Typical names can be obtain from {@link io.github.sinadarvi.syncmusic.nsd.NsdType}
      * @param serviceName When service is discovered it will check if it's name contains this text. It is NOT case sensitive.
      */
     public void startDiscovery(String serviceType, String serviceName) {

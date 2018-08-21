@@ -9,16 +9,23 @@ import com.github.angads25.filepicker.controller.DialogSelectionListener
 import com.github.angads25.filepicker.model.DialogConfigs
 import com.github.angads25.filepicker.model.DialogProperties
 import com.github.angads25.filepicker.view.FilePickerDialog
+import io.github.sinadarvi.syncmusic.nsd.NsdHelper
 import java.io.File
 
 class MainViewModel : ViewModel(), LifecycleObserver {
 
     private var mediaPlayer: MediaPlayer? = null
     private val properties = DialogProperties()
+    lateinit var nsdHelper: NsdHelper
+    var menuDrawerState = Drawer.Unlocked
 
 
     fun addObserver(lifecycleOwner: LifecycleOwner){
         lifecycleOwner.lifecycle.addObserver(this)
+    }
+
+    fun addNsdHelper(nsdHelper: NsdHelper){
+        this.nsdHelper = nsdHelper
     }
 
 
@@ -67,7 +74,8 @@ class MainViewModel : ViewModel(), LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onStoped() {
-
+        nsdHelper.stopDiscovery()
+        nsdHelper.unregisterService()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
