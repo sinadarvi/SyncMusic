@@ -21,8 +21,12 @@ import io.github.sinadarvi.syncmusic.ui.equaliser.EqualiserFragment
 
 class MainActivity : AppCompatActivity(), BottomMenuDrawerFragment.OnMenuItemClickListener
         , BottomNavigationDrawerFragment.OnNavItemClickListener
-        , NsdListener , BottomMenuDrawerFragment.OnDrawerMenuDismissed {
+        , NsdListener , BottomMenuDrawerFragment.OnDrawerMenuDismissed
+        , BottomNavigationDrawerFragment.OnDrawerNavigationDismissed{
 
+    override fun onNavigationDismissed() {
+        viewModel.navigationDrawerState = Drawer.Unlocked
+    }
 
     private var currentFabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
     //set fabState to showMenuDrawer at runTime
@@ -93,6 +97,7 @@ class MainActivity : AppCompatActivity(), BottomMenuDrawerFragment.OnMenuItemCli
 
 
         fab.setOnClickListener {
+            //in this stage we look that what should we show to use, in what state are we
             if (fabState == FabState.ShowMenuDrawer) {
                 val bottomNavDrawerFragment = BottomMenuDrawerFragment()
                 if (viewModel.menuDrawerState == Drawer.Unlocked) {
@@ -125,6 +130,7 @@ class MainActivity : AppCompatActivity(), BottomMenuDrawerFragment.OnMenuItemCli
 
         override fun onHidden(fab: FloatingActionButton?) {
             super.onHidden(fab)
+            //select what fab should be look like each time
             bottom_app_bar.toggleFabAlignment()
             bottom_app_bar.replaceMenu(
                     if (currentFabAlignmentMode == BottomAppBar.FAB_ALIGNMENT_MODE_CENTER)
@@ -150,14 +156,22 @@ class MainActivity : AppCompatActivity(), BottomMenuDrawerFragment.OnMenuItemCli
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.play -> {
+                //pick the file with file picker
                 viewModel.giveMeFilePicker(this, DialogSelectionListener {
                     Toast.makeText(this, "address: ${it[0]}", Toast.LENGTH_SHORT).show()
+                    //TODO: watch out that the file is music file!
+
+                    //start a music file
                     viewModel.startMusic(this, it[0], false)
                 })
             }
             android.R.id.home -> {
                 val bottomNavDrawerFragment = BottomNavigationDrawerFragment()
-                bottomNavDrawerFragment.show(supportFragmentManager, bottomNavDrawerFragment.tag)
+                //if drawer opening, don't open it again
+                if(viewModel.navigationDrawerState == Drawer.Unlocked) {
+                    viewModel.navigationDrawerState = Drawer.Locked
+                    bottomNavDrawerFragment.show(supportFragmentManager, bottomNavDrawerFragment.tag)
+                }
             }
             R.id.setting -> {
                 viewModel.togglePlayingState()

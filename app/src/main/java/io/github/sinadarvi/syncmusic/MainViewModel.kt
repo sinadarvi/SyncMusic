@@ -18,6 +18,7 @@ class MainViewModel : ViewModel(), LifecycleObserver {
     private val properties = DialogProperties()
     lateinit var nsdHelper: NsdHelper
     var menuDrawerState = Drawer.Unlocked
+    var navigationDrawerState = Drawer.Unlocked
 
 
     fun addObserver(lifecycleOwner: LifecycleOwner){

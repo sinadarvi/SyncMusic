@@ -2,6 +2,7 @@ package io.github.sinadarvi.syncmusic
 
 import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,9 +14,14 @@ import kotlinx.android.synthetic.main.bottom_nav_fragment.*
 class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
 
     private lateinit var navItemListener: OnNavItemClickListener
+    lateinit var navigationDismissed: OnDrawerNavigationDismissed
 
     interface OnNavItemClickListener{
         fun onNavItemSelected(itemId: Int)
+    }
+
+    interface OnDrawerNavigationDismissed {
+        fun onNavigationDismissed()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -37,9 +43,15 @@ class BottomNavigationDrawerFragment : BottomSheetDialogFragment() {
 
         try {
             navItemListener = context as OnNavItemClickListener
+            navigationDismissed = context as OnDrawerNavigationDismissed
         }catch (e: ClassCastException){
             throw ClassCastException(context.toString() + " must implement OnImageClickListener")
         }
+    }
+
+    override fun onDismiss(dialog: DialogInterface?) {
+        super.onDismiss(dialog)
+        navigationDismissed.onNavigationDismissed()
     }
 
     override fun getTheme(): Int = R.style.BottomSheetDialogTheme
