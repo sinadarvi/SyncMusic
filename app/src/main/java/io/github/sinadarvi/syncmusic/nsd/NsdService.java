@@ -10,6 +10,8 @@ import java.net.InetAddress;
  * A class representing service information for network service discovery.
  */
 public class NsdService implements Parcelable {
+
+
     public static final Creator<NsdService> CREATOR = new Creator<NsdService>() {
         public NsdService createFromParcel(Parcel source) {
             return new NsdService(source);
@@ -19,6 +21,8 @@ public class NsdService implements Parcelable {
             return new NsdService[size];
         }
     };
+
+
     private final String name;
     private final String type;
     private final String hostIp;

@@ -5,6 +5,8 @@ import android.net.nsd.NsdServiceInfo
 
 class NsdListenerRegistration(private val mNsdHelper: NsdHelper) : NsdManager.RegistrationListener {
 
+    private val ERROR_SOURCE = "android.net.nsd.NsdManager.RegistrationListener"
+
     override fun onRegistrationFailed(serviceInfo: NsdServiceInfo, errorCode: Int) {
         mNsdHelper.logError("Service registration failed!", errorCode, ERROR_SOURCE)
     }
@@ -14,15 +16,11 @@ class NsdListenerRegistration(private val mNsdHelper: NsdHelper) : NsdManager.Re
     }
 
     override fun onServiceRegistered(serviceInfo: NsdServiceInfo) {
-        mNsdHelper.logMsg("Registered -> " + serviceInfo.serviceName)
+        mNsdHelper.logMsg("Registered -> ${serviceInfo.serviceName}")
         mNsdHelper.onRegistered(serviceInfo.serviceName)
     }
 
     override fun onServiceUnregistered(serviceInfo: NsdServiceInfo) {
-        mNsdHelper.logMsg("Unregistered -> " + serviceInfo.serviceName)
-    }
-
-    companion object {
-        private val ERROR_SOURCE = "android.net.nsd.NsdManager.RegistrationListener"
+        mNsdHelper.logMsg("Unregistered -> ${serviceInfo.serviceName}")
     }
 }

@@ -2,7 +2,8 @@ package io.github.sinadarvi.syncmusic
 
 enum class State {
     Server,
-    Client
+    Client,
+    Nothing
 }
 
 enum class FabState{

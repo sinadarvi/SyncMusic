@@ -24,13 +24,11 @@ class MainActivity : AppCompatActivity(), BottomMenuDrawerFragment.OnMenuItemCli
         , NsdListener , BottomMenuDrawerFragment.OnDrawerMenuDismissed
         , BottomNavigationDrawerFragment.OnDrawerNavigationDismissed{
 
-    override fun onNavigationDismissed() {
-        viewModel.navigationDrawerState = Drawer.Unlocked
-    }
 
     private var currentFabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
     //set fabState to showMenuDrawer at runTime
     private var fabState = FabState.ShowMenuDrawer
+    private var state = State.Nothing
     private lateinit var viewModel: MainViewModel
 
     override fun onMenuDismissed() {
@@ -38,7 +36,11 @@ class MainActivity : AppCompatActivity(), BottomMenuDrawerFragment.OnMenuItemCli
         viewModel.menuDrawerState = Drawer.Unlocked
     }
 
-    override fun onNsdRegistered(registeredService: NsdService?) {
+    override fun onNavigationDismissed() {
+        viewModel.navigationDrawerState = Drawer.Unlocked
+    }
+
+    override fun onNsdRegistered(registeredService: NsdService) {
         Toast.makeText(this,"device registered",Toast.LENGTH_SHORT).show()
     }
 
@@ -46,21 +48,22 @@ class MainActivity : AppCompatActivity(), BottomMenuDrawerFragment.OnMenuItemCli
         Toast.makeText(this,"discovery finished",Toast.LENGTH_SHORT).show()
     }
 
-    override fun onNsdServiceFound(foundService: NsdService?) {
+    override fun onNsdServiceFound(foundService: NsdService) {
         Toast.makeText(this,"service found",Toast.LENGTH_SHORT).show()
     }
 
-    override fun onNsdServiceResolved(resolvedService: NsdService?) {
+    override fun onNsdServiceResolved(resolvedService: NsdService) {
         Log.e("AAAAA service resolved", resolvedService?.hostIp + " : " + resolvedService?.host
                 + " : " + resolvedService?.hostName)
         Toast.makeText(this,"ip: ${resolvedService?.hostIp }",Toast.LENGTH_SHORT).show()
     }
 
-    override fun onNsdServiceLost(lostService: NsdService?) {
+    override fun onNsdServiceLost(lostService: NsdService) {
         Toast.makeText(this,"device lost",Toast.LENGTH_SHORT).show()
+        //Todo : should get back from state of searching, we can make animation for searching before device showing up
     }
 
-    override fun onNsdError(errorMessage: String?, errorCode: Int, errorSource: String?) {
+    override fun onNsdError(errorMessage: String, errorCode: Int, errorSource: String) {
         Toast.makeText(this,"error: $errorCode , errorMessage: $errorMessage",Toast.LENGTH_SHORT).show()
     }
 
@@ -72,9 +75,11 @@ class MainActivity : AppCompatActivity(), BottomMenuDrawerFragment.OnMenuItemCli
         when (itemId) {
             R.id.server -> {
                 viewModel.nsdHelper.registerService("SyncMusic", NsdType.HTTP)
+                state = State.Server
             }
             R.id.client -> {
                 viewModel.nsdHelper.startDiscovery(NsdType.HTTP)
+                state = State.Client
             }
         }
     }
@@ -105,9 +110,18 @@ class MainActivity : AppCompatActivity(), BottomMenuDrawerFragment.OnMenuItemCli
                     bottomNavDrawerFragment.show(supportFragmentManager, bottomNavDrawerFragment.tag)
                 }
             } else if (fabState == FabState.Close){
+                //change fabstate so next time show menu drawer
                 fabState = FabState.ShowMenuDrawer
+                //change ui to prepare for next step
                 fab.hide(addVisibilityChanged)
                 bottom_app_bar.setNavigationIcon(R.drawable.ic_menu_white_24dp)
+
+                //check what state we are so we can decide what should we do
+                if(state == State.Client)
+                    viewModel.nsdHelper.stopDiscovery()
+                else if(state == State.Server)
+                    viewModel.nsdHelper.unregisterService()
+                state = State.Nothing
             }
         }
 

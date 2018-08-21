@@ -4,6 +4,8 @@ import android.net.nsd.NsdServiceInfo
 
 internal class NsdListenerDiscovery(private val mNsdHelper: NsdHelper) : android.net.nsd.NsdManager.DiscoveryListener {
 
+    private val ERROR_SOURCE = "android.net.nsd.NsdHelper.DiscoveryListener"
+
     override fun onStartDiscoveryFailed(serviceType: String, errorCode: Int) {
         mNsdHelper.logError("Starting service discovery failed!", errorCode, ERROR_SOURCE)
         mNsdHelper.stopDiscovery()
@@ -25,8 +27,8 @@ internal class NsdListenerDiscovery(private val mNsdHelper: NsdHelper) : android
     override fun onServiceFound(serviceInfo: NsdServiceInfo) {
         if (serviceInfo.serviceType == mNsdHelper.discoveryServiceType) {
             if (serviceInfo.serviceName != mNsdHelper.registeredServiceInfo.serviceName) {
-                if (mNsdHelper.discoveryServiceName == null || serviceInfo.serviceName.toLowerCase() == mNsdHelper.discoveryServiceName.toLowerCase()) {
-                    mNsdHelper.logMsg("Service found -> " + serviceInfo.serviceName)
+                if (mNsdHelper.discoveryServiceName == null || serviceInfo.serviceName.toLowerCase() == mNsdHelper.discoveryServiceName?.toLowerCase()) {
+                    mNsdHelper.logMsg("Service found -> ${serviceInfo.serviceName}")
                     mNsdHelper.onNsdServiceFound(serviceInfo)
                 }
             }
@@ -34,11 +36,7 @@ internal class NsdListenerDiscovery(private val mNsdHelper: NsdHelper) : android
     }
 
     override fun onServiceLost(serviceInfo: NsdServiceInfo) {
-        mNsdHelper.logMsg("Service lost -> " + serviceInfo.serviceName)
+        mNsdHelper.logMsg("Service lost -> ${serviceInfo.serviceName}")
         mNsdHelper.onNsdServiceLost(serviceInfo)
-    }
-
-    companion object {
-        private val ERROR_SOURCE = "android.net.nsd.NsdHelper.DiscoveryListener"
     }
 }
