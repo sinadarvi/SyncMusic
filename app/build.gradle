@@ -10,8 +10,8 @@ android {
         applicationId "io.github.sinadarvi.syncmusic"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 49
-        versionName "0.4.9"
+        versionCode 411
+        versionName "0.4.11"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
