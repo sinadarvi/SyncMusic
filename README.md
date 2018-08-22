@@ -4,7 +4,7 @@
 <h1 align="center">SyncMusic</h1>
 
 
-This project inspired by <a href="https://github.com/mghayour/SyncMusic/">this</a> project and tries to play a music simultaneously between <b>Android</b> Devices
+<p align="center">This project inspired by <a href="https://github.com/mghayour/SyncMusic/">this</a> project and tries to play a music simultaneously between <b>Android</b> Devices</p>
 
 ## Features
 - Play music simultaneously between **android** devices
