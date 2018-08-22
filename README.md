@@ -24,6 +24,6 @@ Contributions via Pull Requests are welcome.
 
 ## Todo
 
- - [ ]  Complete Beta Version
+ - [ ]  Complete alpha Version
  - [ ] Make a *Project board* for this project
  - [ ] Add more todos
