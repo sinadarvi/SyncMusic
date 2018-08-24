@@ -10,8 +10,8 @@ android {
         applicationId "io.github.sinadarvi.syncmusic"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 411
-        versionName "0.4.11"
+        versionCode 412
+        versionName "0.4.12"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -46,4 +46,5 @@ dependencies {
     implementation 'com.thanosfisherman.wifiutils:wifiutils:1.3.7'
     implementation 'android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha05'
     implementation 'android.arch.navigation:navigation-ui:1.0.0-alpha05'
+    implementation 'com.fxn769:musicwave:1.0'
 }

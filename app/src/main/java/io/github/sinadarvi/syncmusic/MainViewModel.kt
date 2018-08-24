@@ -1,9 +1,12 @@
 package io.github.sinadarvi.syncmusic
 
+import ak.sh.ay.musicwave.MusicWave
 import android.content.Context
 import android.media.MediaPlayer
+import android.media.audiofx.Visualizer
 import android.net.Uri
 import android.util.Log
+import android.util.Log.e
 import androidx.lifecycle.*
 import com.github.angads25.filepicker.controller.DialogSelectionListener
 import com.github.angads25.filepicker.model.DialogConfigs
@@ -11,14 +14,19 @@ import com.github.angads25.filepicker.model.DialogProperties
 import com.github.angads25.filepicker.view.FilePickerDialog
 import io.github.sinadarvi.syncmusic.nsd.NsdHelper
 import java.io.File
+import io.github.sinadarvi.syncmusic.R.id.musicWave
+
+
 
 class MainViewModel : ViewModel(), LifecycleObserver {
 
     private var mediaPlayer: MediaPlayer? = null
+    private var visualizer: Visualizer? = null
     private val properties = DialogProperties()
     lateinit var nsdHelper: NsdHelper
     var menuDrawerState = Drawer.Unlocked
     var navigationDrawerState = Drawer.Unlocked
+    private var musicWave: MusicWave? = null
 
 
     fun addObserver(lifecycleOwner: LifecycleOwner){
@@ -27,6 +35,10 @@ class MainViewModel : ViewModel(), LifecycleObserver {
 
     fun addNsdHelper(nsdHelper: NsdHelper){
         this.nsdHelper = nsdHelper
+    }
+
+    fun takeThisMusicWave(musicWave: MusicWave){
+        this.musicWave = musicWave
     }
 
 
@@ -49,7 +61,7 @@ class MainViewModel : ViewModel(), LifecycleObserver {
     fun startMusic(context: Context, path: String, looping: Boolean) {
         mediaPlayer?.let {
             if (it.isPlaying) {
-                Log.e("SyncMusic", "media player is playing, stop before running new one")
+                e("SyncMusic", "media player is playing, stop before running new one")
                 it.stop()
 //                it.release()
             }
@@ -57,6 +69,22 @@ class MainViewModel : ViewModel(), LifecycleObserver {
         mediaPlayer = MediaPlayer.create(context, Uri.parse(path))
         mediaPlayer?.isLooping = looping
         mediaPlayer?.start()
+
+        //prepare visualizer
+        visualizer = Visualizer((mediaPlayer as MediaPlayer).audioSessionId)
+        visualizer?.captureSize = Visualizer.getCaptureSizeRange()[1]
+        visualizer?.setDataCaptureListener(
+                object : Visualizer.OnDataCaptureListener {
+                    override fun onWaveFormDataCapture(visualizer: Visualizer,
+                                                       bytes: ByteArray, samplingRate: Int) {
+                        musicWave?.updateVisualizer(bytes)
+                    }
+
+                    override fun onFftDataCapture(visualizer: Visualizer,
+                                                  bytes: ByteArray, samplingRate: Int) {
+                    }
+                }, Visualizer.getMaxCaptureRate() / 2, true, false)
+        visualizer?.enabled = true
     }
 
     fun togglePlayingState(){

@@ -8,6 +8,9 @@ import android.util.Log;
 import java.io.IOException;
 import java.net.ServerSocket;
 
+import static android.util.Log.d;
+import static android.util.Log.e;
+
 /**
  * NsdHelper is a helper class for {@link NsdManager}.
  */
@@ -307,11 +310,11 @@ public class NsdHelper implements DiscoveryTimer.OnTimeoutListener {
 
     void logMsg(String msg) {
         if (mLogEnabled)
-            Log.d(TAG, msg);
+            d(TAG, msg);
     }
 
     void logError(String errorMessage, int errorCode, String errorSource) {
-        Log.e(TAG, errorMessage);
+        e(TAG, errorMessage);
         if (mNsdListener != null)
             mNsdListener.onNsdError(errorMessage, errorCode, errorSource);
     }
