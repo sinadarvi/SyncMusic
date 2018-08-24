@@ -8,9 +8,11 @@
 
 ## Art  
   
-<img src="https://github.com/sinadarvi/SyncMusic/blob/master/art/main.png?raw=true" />  
-<img src="https://github.com/sinadarvi/SyncMusic/blob/master/art/drawer.png?raw=true" />  
-<img src="https://github.com/sinadarvi/SyncMusic/blob/master/art/equlizer.png?raw=true" />
+<div style="display: flex;">
+	<img src="https://github.com/sinadarvi/SyncMusic/blob/master/art/main.png?raw=true" />  
+	<img src="https://github.com/sinadarvi/SyncMusic/blob/master/art/drawer.png?raw=true" />  
+	<img src="https://github.com/sinadarvi/SyncMusic/blob/master/art/equlizer.png?raw=true" />
+</div>
 
 
 ## Features
