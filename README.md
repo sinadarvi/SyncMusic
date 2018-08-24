@@ -6,6 +6,13 @@
 
 <p align="center">This project inspired by <a href="https://github.com/mghayour/SyncMusic/">this</a> project and tries to play a music simultaneously between <b>Android</b> Devices</p>
 
+## Art  
+  
+<img src="https://github.com/sinadarvi/SyncMusic/blob/master/art/main.png?raw=true" />  
+<img src="https://github.com/sinadarvi/SyncMusic/blob/master/art/drawer.png?raw=true" />  
+<img src="https://github.com/sinadarvi/SyncMusic/blob/master/art/equlizer.png?raw=true" />
+
+
 ## Features
 - Play music simultaneously between **android** devices
 - Find a Broadcaster as fast as possible in your network
@@ -24,6 +31,7 @@ Contributions via Pull Requests are welcome.
 
 ## Todo
 
- - [ ]  Complete alpha Version
+ - [-] Add Art Folder
+ - [ ] Complete alpha Version
  - [ ] Make a *Project board* for this project
  - [ ] Add more todos
