@@ -25,11 +25,7 @@ import kotlinx.android.synthetic.main.main_activity.*
 import io.github.sinadarvi.syncmusic.ui.equaliser.EqualiserFragment
 
 
-class MainActivity : AppCompatActivity(), BottomMenuDrawerFragment.OnMenuItemClickListener
-        , BottomNavigationDrawerFragment.OnNavItemClickListener
-        , NsdListener, BottomMenuDrawerFragment.OnDrawerMenuDismissed
-        , BottomNavigationDrawerFragment.OnDrawerNavigationDismissed
-        , EqualiserFragment.EqualiserFragmentAttach {
+class MainActivity : AppCompatActivity(), NsdListener {
 
 
     private var currentFabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
@@ -89,6 +85,26 @@ class MainActivity : AppCompatActivity(), BottomMenuDrawerFragment.OnMenuItemCli
         }
 
     }
+
+
+    //region menu item click listener
+    fun onMenuItemSelected(itemId: Int){
+        //we are now in MenuDrawer so next time should we pick 'Close'
+        fabState = FabState.Close
+        bottom_app_bar.navigationIcon = null
+        fab.hide(addVisibilityChanged)
+        when (itemId) {
+            R.id.server -> {
+                viewModel.nsdHelper.registerService("SyncMusic", NsdType.HTTP)
+                state = State.Server
+            }
+            R.id.client -> {
+                viewModel.nsdHelper.startDiscovery(NsdType.HTTP)
+                state = State.Client
+            }
+        }
+    }
+    //endregion
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when (requestCode) {
@@ -170,15 +186,14 @@ class MainActivity : AppCompatActivity(), BottomMenuDrawerFragment.OnMenuItemCli
         return true
     }
 
-    //region menu dissmissed
-    override fun onMenuDismissed() {
-        // interface that when a menu dismissed
+    //region menu dismissed
+    fun onMenuDismissed(){
         viewModel.menuDrawerState = Drawer.Unlocked
     }
     //endregion
 
     //region navigation dismissed
-    override fun onNavigationDismissed() {
+    fun onNavigationDismissed() {
         viewModel.navigationDrawerState = Drawer.Unlocked
     }
     //endregion
@@ -212,34 +227,15 @@ class MainActivity : AppCompatActivity(), BottomMenuDrawerFragment.OnMenuItemCli
     }
     //endregion
 
-    //region menu item click listener
-    override fun onMenuItemSelected(itemId: Int) {
-        //we are now in MenuDrawer so next time should we pick 'Close'
-        fabState = FabState.Close
-        bottom_app_bar.navigationIcon = null
-        fab.hide(addVisibilityChanged)
-        when (itemId) {
-            R.id.server -> {
-                viewModel.nsdHelper.registerService("SyncMusic", NsdType.HTTP)
-                state = State.Server
-            }
-            R.id.client -> {
-                viewModel.nsdHelper.startDiscovery(NsdType.HTTP)
-                state = State.Client
-            }
-        }
-    }
-    //endregion
 
     //region nav item click listener
-    override fun onNavItemSelected(itemId: Int) {
+    fun onNavItemSelected(itemId: Int){
         Toast.makeText(this, "This item still unavailable right now" +
                 ", will be enable in next update", Toast.LENGTH_LONG).show()
     }
     //endregion
 
-
-    override fun onEqualiserFragmentAttached(musicWave: MusicWave) {
+    fun attachMusicWave(musicWave: MusicWave){
         viewModel.takeThisMusicWave(musicWave)
     }
 
