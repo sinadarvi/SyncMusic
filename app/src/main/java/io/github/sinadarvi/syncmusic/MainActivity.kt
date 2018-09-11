@@ -186,18 +186,6 @@ class MainActivity : AppCompatActivity(), NsdListener {
         return true
     }
 
-    //region menu dismissed
-    fun onMenuDismissed(){
-        viewModel.menuDrawerState = Drawer.Unlocked
-    }
-    //endregion
-
-    //region navigation dismissed
-    fun onNavigationDismissed() {
-        viewModel.navigationDrawerState = Drawer.Unlocked
-    }
-    //endregion
-
     //region NSD Interfaces
     override fun onNsdRegistered(registeredService: NsdService) {
         Toast.makeText(this, "device registered", Toast.LENGTH_SHORT).show()
@@ -235,8 +223,22 @@ class MainActivity : AppCompatActivity(), NsdListener {
     }
     //endregion
 
+    //region attachMusicWave to view Model for equalizer fragment
     fun attachMusicWave(musicWave: MusicWave){
         viewModel.takeThisMusicWave(musicWave)
     }
+    //endregion
+
+    //region menu dismissed
+    fun onMenuDismissed(){
+        viewModel.menuDrawerState = Drawer.Unlocked
+    }
+    //endregion
+
+    //region navigation dismissed
+    fun onNavigationDismissed() {
+        viewModel.navigationDrawerState = Drawer.Unlocked
+    }
+    //endregion
 
 }
