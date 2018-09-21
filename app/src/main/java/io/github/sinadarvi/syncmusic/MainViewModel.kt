@@ -5,17 +5,14 @@ import android.content.Context
 import android.media.MediaPlayer
 import android.media.audiofx.Visualizer
 import android.net.Uri
-import android.util.Log
 import android.util.Log.e
 import androidx.lifecycle.*
 import com.github.angads25.filepicker.controller.DialogSelectionListener
 import com.github.angads25.filepicker.model.DialogConfigs
 import com.github.angads25.filepicker.model.DialogProperties
 import com.github.angads25.filepicker.view.FilePickerDialog
-import io.github.sinadarvi.syncmusic.nsd.NsdHelper
+import io.github.sinadarvi.nsd.NsdHelper
 import java.io.File
-import io.github.sinadarvi.syncmusic.R.id.musicWave
-
 
 
 class MainViewModel : ViewModel(), LifecycleObserver {
@@ -23,7 +20,7 @@ class MainViewModel : ViewModel(), LifecycleObserver {
     private var mediaPlayer: MediaPlayer? = null
     private var visualizer: Visualizer? = null
     private val properties = DialogProperties()
-    lateinit var nsdHelper: NsdHelper
+    lateinit var nsdHelper: io.github.sinadarvi.nsd.NsdHelper
     var menuDrawerState = Drawer.Unlocked
     var navigationDrawerState = Drawer.Unlocked
     private var musicWave: MusicWave? = null
@@ -33,7 +30,7 @@ class MainViewModel : ViewModel(), LifecycleObserver {
         lifecycleOwner.lifecycle.addObserver(this)
     }
 
-    fun addNsdHelper(nsdHelper: NsdHelper){
+    fun addNsdHelper(nsdHelper: io.github.sinadarvi.nsd.NsdHelper){
         this.nsdHelper = nsdHelper
     }
 

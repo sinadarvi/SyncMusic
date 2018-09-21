@@ -5,7 +5,6 @@ import android.Manifest
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.util.Log.e
 import android.view.Menu
 import android.view.MenuItem
@@ -17,10 +16,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.github.angads25.filepicker.controller.DialogSelectionListener
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import io.github.sinadarvi.syncmusic.nsd.NsdHelper
-import io.github.sinadarvi.syncmusic.nsd.NsdListener
-import io.github.sinadarvi.syncmusic.nsd.NsdService
-import io.github.sinadarvi.syncmusic.nsd.NsdType
+import io.github.sinadarvi.nsd.NsdListener
+import io.github.sinadarvi.nsd.NsdType
 import kotlinx.android.synthetic.main.main_activity.*
 import io.github.sinadarvi.syncmusic.ui.equaliser.EqualiserFragment
 
@@ -46,7 +43,7 @@ class MainActivity : AppCompatActivity(), NsdListener {
         viewModel = ViewModelProviders.of(this)[MainViewModel::class.java]
         viewModel.addObserver(this)
 
-        viewModel.addNsdHelper(NsdHelper(this, this))
+        viewModel.addNsdHelper(io.github.sinadarvi.nsd.NsdHelper(this, this))
         viewModel.nsdHelper.isLogEnabled = true
 
 
@@ -187,7 +184,7 @@ class MainActivity : AppCompatActivity(), NsdListener {
     }
 
     //region NSD Interfaces
-    override fun onNsdRegistered(registeredService: NsdService) {
+    override fun onNsdRegistered(registeredService: io.github.sinadarvi.nsd.NsdService) {
         Toast.makeText(this, "device registered", Toast.LENGTH_SHORT).show()
     }
 
@@ -195,17 +192,17 @@ class MainActivity : AppCompatActivity(), NsdListener {
         Toast.makeText(this, "discovery finished", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onNsdServiceFound(foundService: NsdService) {
+    override fun onNsdServiceFound(foundService: io.github.sinadarvi.nsd.NsdService) {
         Toast.makeText(this, "service found", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onNsdServiceResolved(resolvedService: NsdService) {
+    override fun onNsdServiceResolved(resolvedService: io.github.sinadarvi.nsd.NsdService) {
         e("AAAAA service resolved", resolvedService.hostIp + " : " + resolvedService.host
                 + " : " + resolvedService.hostName)
         Toast.makeText(this, "ip: ${resolvedService.hostIp}", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onNsdServiceLost(lostService: NsdService) {
+    override fun onNsdServiceLost(lostService: io.github.sinadarvi.nsd.NsdService) {
         Toast.makeText(this, "device lost", Toast.LENGTH_SHORT).show()
         //Todo : should get back from state of searching, we can make animation for searching before device showing up
     }
