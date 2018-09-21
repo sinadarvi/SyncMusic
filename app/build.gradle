@@ -8,10 +8,10 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "io.github.sinadarvi.syncmusic"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 28
-        versionCode 51
-        versionName "0.5.1"
+        versionCode 52
+        versionName "0.5.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -48,4 +48,6 @@ dependencies {
     implementation 'android.arch.navigation:navigation-ui:1.0.0-alpha05'
     implementation 'com.fxn769:musicwave:1.0'
     implementation project(':nsd')
+    //this module add from https://github.com/bogerchan/Nier-Visualizer so we can do much on it
+    implementation project(':niervisualizer')
 }
