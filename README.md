@@ -29,7 +29,7 @@ then open it with Android Studio 3.2+ (there are some experimental feature in pr
 
 ## Contributing
 
-Contributions via Pull Requests are welcome.
+Contributions via Pull Requests are welcomed.
 
 ## Todo
 

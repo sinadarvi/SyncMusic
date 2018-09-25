@@ -8,16 +8,25 @@
     android:layout_height="match_parent"
     tools:context=".ui.equaliser.EqualiserFragment">
 
-    <ak.sh.ay.musicwave.MusicWave
-        android:id="@+id/musicWave"
+    <!--<ak.sh.ay.musicwave.MusicWave-->
+        <!--android:id="@+id/musicWave"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--app:colorGradient="true"-->
+        <!--app:endColor="@color/colorEnd"-->
+        <!--app:startColor="@color/colorStart"-->
+        <!--app:waveColor="@color/colorAccent"-->
+        <!--app:waveThickness="1" />-->
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:colorGradient="true"
-        app:endColor="@color/colorEnd"
-        app:startColor="@color/colorStart"
-        app:waveColor="@color/colorAccent"
-        app:waveThickness="1" />
+        android:layout_height="match_parent">
 
-
+        <SurfaceView
+            android:id="@+id/music_wave"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp" />
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

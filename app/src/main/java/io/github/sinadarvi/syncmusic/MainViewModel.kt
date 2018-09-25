@@ -20,23 +20,23 @@ class MainViewModel : ViewModel(), LifecycleObserver {
     private var mediaPlayer: MediaPlayer? = null
     private var visualizer: Visualizer? = null
     private val properties = DialogProperties()
-    lateinit var nsdHelper: io.github.sinadarvi.nsd.NsdHelper
+    lateinit var nsdHelper: NsdHelper
     var menuDrawerState = Drawer.Unlocked
     var navigationDrawerState = Drawer.Unlocked
-    private var musicWave: MusicWave? = null
+//    private var musicWave: MusicWave? = null
 
 
     fun addObserver(lifecycleOwner: LifecycleOwner){
         lifecycleOwner.lifecycle.addObserver(this)
     }
 
-    fun addNsdHelper(nsdHelper: io.github.sinadarvi.nsd.NsdHelper){
+    fun addNsdHelper(nsdHelper: NsdHelper){
         this.nsdHelper = nsdHelper
     }
 
-    fun takeThisMusicWave(musicWave: MusicWave){
-        this.musicWave = musicWave
-    }
+//    fun takeThisMusicWave(musicWave: MusicWave){
+//        this.musicWave = musicWave
+//    }
 
 
     fun giveMeFilePicker(context: Context, callback: DialogSelectionListener) {
@@ -68,20 +68,20 @@ class MainViewModel : ViewModel(), LifecycleObserver {
         mediaPlayer?.start()
 
         //prepare visualizer
-        visualizer = Visualizer((mediaPlayer as MediaPlayer).audioSessionId)
-        visualizer?.captureSize = Visualizer.getCaptureSizeRange()[1]
-        visualizer?.setDataCaptureListener(
-                object : Visualizer.OnDataCaptureListener {
-                    override fun onWaveFormDataCapture(visualizer: Visualizer,
-                                                       bytes: ByteArray, samplingRate: Int) {
-                        musicWave?.updateVisualizer(bytes)
-                    }
-
-                    override fun onFftDataCapture(visualizer: Visualizer,
-                                                  bytes: ByteArray, samplingRate: Int) {
-                    }
-                }, Visualizer.getMaxCaptureRate() / 2, true, false)
-        visualizer?.enabled = true
+//        visualizer = Visualizer((mediaPlayer as MediaPlayer).audioSessionId)
+//        visualizer?.captureSize = Visualizer.getCaptureSizeRange()[1]
+//        visualizer?.setDataCaptureListener(
+//                object : Visualizer.OnDataCaptureListener {
+//                    override fun onWaveFormDataCapture(visualizer: Visualizer,
+//                                                       bytes: ByteArray, samplingRate: Int) {
+//                        musicWave?.updateVisualizer(bytes)
+//                    }
+//
+//                    override fun onFftDataCapture(visualizer: Visualizer,
+//                                                  bytes: ByteArray, samplingRate: Int) {
+//                    }
+//                }, Visualizer.getMaxCaptureRate() / 2, true, false)
+//        visualizer?.enabled = true
     }
 
     fun togglePlayingState(){

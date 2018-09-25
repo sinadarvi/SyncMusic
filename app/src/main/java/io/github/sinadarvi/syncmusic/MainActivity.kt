@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.github.angads25.filepicker.controller.DialogSelectionListener
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import io.github.sinadarvi.nsd.NsdHelper
 import io.github.sinadarvi.nsd.NsdListener
 import io.github.sinadarvi.nsd.NsdType
 import kotlinx.android.synthetic.main.main_activity.*
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity(), NsdListener {
         viewModel = ViewModelProviders.of(this)[MainViewModel::class.java]
         viewModel.addObserver(this)
 
-        viewModel.addNsdHelper(io.github.sinadarvi.nsd.NsdHelper(this, this))
+        viewModel.addNsdHelper(NsdHelper(this, this))
         viewModel.nsdHelper.isLogEnabled = true
 
 
@@ -221,9 +222,9 @@ class MainActivity : AppCompatActivity(), NsdListener {
     //endregion
 
     //region attachMusicWave to view Model for equalizer fragment
-    fun attachMusicWave(musicWave: MusicWave){
-        viewModel.takeThisMusicWave(musicWave)
-    }
+//    fun attachMusicWave(musicWave: MusicWave){
+//        viewModel.takeThisMusicWave(musicWave)
+//    }
     //endregion
 
     //region menu dismissed

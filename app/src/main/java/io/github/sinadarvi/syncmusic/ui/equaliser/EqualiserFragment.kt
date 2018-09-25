@@ -30,7 +30,7 @@ class EqualiserFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(EqualiserViewModel::class.java)
         // TODO: Use the ViewModel
-        (activity as MainActivity).attachMusicWave(musicWave)
+//        (activity as MainActivity).attachMusicWave(music_wave)
     }
 
 
