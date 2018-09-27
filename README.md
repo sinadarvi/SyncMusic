@@ -4,7 +4,7 @@
 <h1 align="center">SyncMusic</h1>
 
 
-<p align="center">This project inspired by <a href="https://github.com/mghayour/SyncMusic/">this</a> project and tries to play a music simultaneously between <b>Android</b> Devices</p>
+<p align="center">This project inspired by <a href="https://github.com/mghayour/SyncMusic/">this</a> project and tries to play a music simultaneously between <b>Android</b> Devices - this is flutter version</p>
 
 ## Art  
   

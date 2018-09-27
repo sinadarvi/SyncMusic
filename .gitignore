@@ -6,5 +6,7 @@
 
 build/
 
+.idea
+
 *.iml
 .flutter-plugins
