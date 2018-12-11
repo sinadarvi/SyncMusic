@@ -1,4 +1,4 @@
-package io.github.sinadarvi.syncmusic.nsd
+package io.github.sinadarvi.nsd
 
 interface NsdListener {
     /**

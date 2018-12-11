@@ -15,16 +15,8 @@ import kotlinx.android.synthetic.main.bottom_menu_fragment.*
 class BottomMenuDrawerFragment : BottomSheetDialogFragment() {
 
     private lateinit var context: FragmentActivity
-    private lateinit var callback: OnMenuItemClickListener
-    private lateinit var menuDismissed: OnDrawerMenuDismissed
 
-    interface OnMenuItemClickListener {
-        fun onMenuItemSelected(itemId: Int)
-    }
 
-    interface OnDrawerMenuDismissed {
-        fun onMenuDismissed()
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.bottom_menu_fragment, container, false)
@@ -33,7 +25,7 @@ class BottomMenuDrawerFragment : BottomSheetDialogFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         menu_view.setNavigationItemSelectedListener {
-            callback.onMenuItemSelected(it.itemId)
+            (activity as MainActivity).onMenuItemSelected(it.itemId)
             dismiss()
             true
         }
@@ -45,8 +37,6 @@ class BottomMenuDrawerFragment : BottomSheetDialogFragment() {
         this.context = context as FragmentActivity
 
         try {
-            callback = context as OnMenuItemClickListener
-            menuDismissed = context as OnDrawerMenuDismissed
         } catch (e: ClassCastException) {
             throw ClassCastException(context.toString() + " must implement OnImageClickListener")
         }
@@ -54,7 +44,7 @@ class BottomMenuDrawerFragment : BottomSheetDialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface?) {
         super.onDismiss(dialog)
-        menuDismissed.onMenuDismissed()
+        (activity as MainActivity).onMenuDismissed()
     }
 
     override fun getTheme(): Int = R.style.BottomSheetDialogTheme

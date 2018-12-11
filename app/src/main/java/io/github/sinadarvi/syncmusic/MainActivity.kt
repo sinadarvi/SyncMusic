@@ -5,7 +5,6 @@ import android.Manifest
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.util.Log.e
 import android.view.Menu
 import android.view.MenuItem
@@ -17,19 +16,14 @@ import androidx.lifecycle.ViewModelProviders
 import com.github.angads25.filepicker.controller.DialogSelectionListener
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import io.github.sinadarvi.syncmusic.nsd.NsdHelper
-import io.github.sinadarvi.syncmusic.nsd.NsdListener
-import io.github.sinadarvi.syncmusic.nsd.NsdService
-import io.github.sinadarvi.syncmusic.nsd.NsdType
+import io.github.sinadarvi.nsd.NsdHelper
+import io.github.sinadarvi.nsd.NsdListener
+import io.github.sinadarvi.nsd.NsdType
 import kotlinx.android.synthetic.main.main_activity.*
 import io.github.sinadarvi.syncmusic.ui.equaliser.EqualiserFragment
 
 
-class MainActivity : AppCompatActivity(), BottomMenuDrawerFragment.OnMenuItemClickListener
-        , BottomNavigationDrawerFragment.OnNavItemClickListener
-        , NsdListener, BottomMenuDrawerFragment.OnDrawerMenuDismissed
-        , BottomNavigationDrawerFragment.OnDrawerNavigationDismissed
-        , EqualiserFragment.EqualiserFragmentAttach {
+class MainActivity : AppCompatActivity(), NsdListener {
 
 
     private var currentFabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
@@ -89,6 +83,26 @@ class MainActivity : AppCompatActivity(), BottomMenuDrawerFragment.OnMenuItemCli
         }
 
     }
+
+
+    //region menu item click listener
+    fun onMenuItemSelected(itemId: Int){
+        //we are now in MenuDrawer so next time should we pick 'Close'
+        fabState = FabState.Close
+        bottom_app_bar.navigationIcon = null
+        fab.hide(addVisibilityChanged)
+        when (itemId) {
+            R.id.server -> {
+                viewModel.nsdHelper.registerService("SyncMusic", NsdType.HTTP)
+                state = State.Server
+            }
+            R.id.client -> {
+                viewModel.nsdHelper.startDiscovery(NsdType.HTTP)
+                state = State.Client
+            }
+        }
+    }
+    //endregion
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when (requestCode) {
@@ -170,21 +184,8 @@ class MainActivity : AppCompatActivity(), BottomMenuDrawerFragment.OnMenuItemCli
         return true
     }
 
-    //region menu dissmissed
-    override fun onMenuDismissed() {
-        // interface that when a menu dismissed
-        viewModel.menuDrawerState = Drawer.Unlocked
-    }
-    //endregion
-
-    //region navigation dismissed
-    override fun onNavigationDismissed() {
-        viewModel.navigationDrawerState = Drawer.Unlocked
-    }
-    //endregion
-
     //region NSD Interfaces
-    override fun onNsdRegistered(registeredService: NsdService) {
+    override fun onNsdRegistered(registeredService: io.github.sinadarvi.nsd.NsdService) {
         Toast.makeText(this, "device registered", Toast.LENGTH_SHORT).show()
     }
 
@@ -192,17 +193,17 @@ class MainActivity : AppCompatActivity(), BottomMenuDrawerFragment.OnMenuItemCli
         Toast.makeText(this, "discovery finished", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onNsdServiceFound(foundService: NsdService) {
+    override fun onNsdServiceFound(foundService: io.github.sinadarvi.nsd.NsdService) {
         Toast.makeText(this, "service found", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onNsdServiceResolved(resolvedService: NsdService) {
+    override fun onNsdServiceResolved(resolvedService: io.github.sinadarvi.nsd.NsdService) {
         e("AAAAA service resolved", resolvedService.hostIp + " : " + resolvedService.host
                 + " : " + resolvedService.hostName)
         Toast.makeText(this, "ip: ${resolvedService.hostIp}", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onNsdServiceLost(lostService: NsdService) {
+    override fun onNsdServiceLost(lostService: io.github.sinadarvi.nsd.NsdService) {
         Toast.makeText(this, "device lost", Toast.LENGTH_SHORT).show()
         //Todo : should get back from state of searching, we can make animation for searching before device showing up
     }
@@ -212,35 +213,30 @@ class MainActivity : AppCompatActivity(), BottomMenuDrawerFragment.OnMenuItemCli
     }
     //endregion
 
-    //region menu item click listener
-    override fun onMenuItemSelected(itemId: Int) {
-        //we are now in MenuDrawer so next time should we pick 'Close'
-        fabState = FabState.Close
-        bottom_app_bar.navigationIcon = null
-        fab.hide(addVisibilityChanged)
-        when (itemId) {
-            R.id.server -> {
-                viewModel.nsdHelper.registerService("SyncMusic", NsdType.HTTP)
-                state = State.Server
-            }
-            R.id.client -> {
-                viewModel.nsdHelper.startDiscovery(NsdType.HTTP)
-                state = State.Client
-            }
-        }
-    }
-    //endregion
 
     //region nav item click listener
-    override fun onNavItemSelected(itemId: Int) {
+    fun onNavItemSelected(itemId: Int){
         Toast.makeText(this, "This item still unavailable right now" +
                 ", will be enable in next update", Toast.LENGTH_LONG).show()
     }
     //endregion
 
+    //region attachMusicWave to view Model for equalizer fragment
+//    fun attachMusicWave(musicWave: MusicWave){
+//        viewModel.takeThisMusicWave(musicWave)
+//    }
+    //endregion
 
-    override fun onEqualiserFragmentAttached(musicWave: MusicWave) {
-        viewModel.takeThisMusicWave(musicWave)
+    //region menu dismissed
+    fun onMenuDismissed(){
+        viewModel.menuDrawerState = Drawer.Unlocked
     }
+    //endregion
+
+    //region navigation dismissed
+    fun onNavigationDismissed() {
+        viewModel.navigationDrawerState = Drawer.Unlocked
+    }
+    //endregion
 
 }
